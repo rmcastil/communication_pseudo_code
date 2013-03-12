@@ -1,28 +1,36 @@
-class Person
+class Sender
+
+  def initialize(said)
+    @said = said
+  end
 
   def mood
     if @feel_acknowledged
-      "happy"
+      "content"
     end
   end
 
   def describe_day_to(another_person)
-    #if another_person.interpretation_of_day == interpretation_of_day
-    if another_person.listened_to_day
+    if another_person.listened_to_day?
       @feel_acknowledged = true
     end
   end
 
-  def interpretation_of_day
-  end
 end
 
-describe Person do
-  it "has a pleasent conversation" do
-    significant_other = Person.new(description_of_day: "a good day")
-    me = Person.new
+class Recipient
+end
+
+describe Sender do
+  it "is content the listener listened" do
+    significant_other = Sender.new(message: "I had a good day")
+    me = double(Recipient)
+    me.stub(:listened_to_day?) { true }
 
     significant_other.describe_day_to(me)
-    significant_other.mood.should == "happy"
+    significant_other.mood.should >= "content"
+  end
+
+  it "is content the listener attempted to understand" do
   end
 end
